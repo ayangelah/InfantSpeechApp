@@ -1,5 +1,11 @@
+library(howler)
+
 server <- function(input, output) {
-  output$distPlot <- renderPlot({
-    hist(rnorm(input$obs), col = 'darkgray', border = 'white')
+  output$selected_ipa <- renderText({
+    paste("you have entered", input$ipa)
+  })
+  
+  output$selected_tier <- renderText({
+    paste("You have selected", input$tier)
   })
 }

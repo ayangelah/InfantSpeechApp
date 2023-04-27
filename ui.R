@@ -19,7 +19,7 @@ ui <- fluidPage(
       #info Panel
       h1("info panel"),
     ),
-    sidebarPanel (
+    mainPanel (
       #audio Panel
       h1("audio panel"),
     )
