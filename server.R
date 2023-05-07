@@ -1,11 +1,11 @@
 library(howler)
 
 server <- function(input, output) {
-  output$selected_ipa <- renderText({
-    paste("you have entered", input$ipa)
-  })
-  
-  output$selected_tier <- renderText({
-    paste("You have selected", input$tier)
+  #observeEvent(input$number, changeHowlerSeek("howler", input$number))
+  #observeEvent(input$track, changeHowlerTrack("howler", input$track))
+  output$howleroutput <- renderHowler({
+    howler(
+      source("/audio.mp3"),
+      seek.connection(where=100))
   })
 }

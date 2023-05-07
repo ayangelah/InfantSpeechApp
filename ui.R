@@ -1,12 +1,14 @@
 library(shiny)
 library(howler)
 
+tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", "ShinyApp/audio1.mp3", "ShinyApp/audio2.mp3")
+
 ui <- fluidPage(
   titlePanel("Infant Speech App"),
   fluidRow (
     #IPA Input
     column(2,
-      textInput("text", h3("IPA:"), value = "Enter text...")
+      textInput("text", h3("IPA:"))
     ),
     #Tier Input
     column(2,
@@ -25,16 +27,5 @@ ui <- fluidPage(
     )
   ),
   h1("Howler Audio Player"),
-  howler::howlerModuleUI(
-    id = "sound",
-    files = list(
-      "Winning Elevation" = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3"
-    )
-  ),
-  howler::howlerBasicModuleUI(
-    id = "sound2",
-    files = list(
-      "Winning Elevation" = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3"
-    )
-  )
+  howlerOutput("howleroutput")
 )
