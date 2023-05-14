@@ -6,9 +6,16 @@ tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.
 
 #NewSection<-readWave("/Japanese.wav", from=10, to=30, units="seconds")
 
-audio_files_dir <- system.file("./audio", package = "howler")
-addResourcePath("ShinyApp", audio_files_dir)
-audio_files <- file.path("ShinyApp", list.files(audio_files_dir, ".wav$"))
+#sample_audio = file.path(".", "ShinyApp", "audio", fsep="/")
+#audio_files_dir <- system.file("audio", package = "howler")
+#addResourcePath("sample_audio", audio_files_dir)
+#audio_files <- file.path("sample_audio", list.files(audio_files_dir, ".wav$"))
+#audio_files <- file.path(list.files("./audio",".mp3$", full.names = TRUE))
+
+addResourcePath("aud", "./audio")
+audio_files <- file.path("aud", list.files("./audio", ".wav$"))
+
+print(paste0(audio_files))
 
 ui <- fluidPage(
   titlePanel("Infant Speech App"),
@@ -36,11 +43,11 @@ ui <- fluidPage(
   howler::howlerModuleUI(
     id = "sound2",
     files = list(
-      "Test" = "NewSection"
+      audio_files[1]
     )
   ),
   title = "howler.js Player",
-  howler(elementId = "sound", audio_files),
+  howler(audio_files[1], elementId = "sound"),
   howlerCurrentTrack("sound"),
   p(
     howlerSeekTime("sound"),
