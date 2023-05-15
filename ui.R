@@ -4,16 +4,13 @@ library(tuneR)
 
 tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", "ShinyApp/audio1.mp3", "ShinyApp/audio2.mp3")
 
-#NewSection<-readWave("/Japanese.wav", from=10, to=30, units="seconds")
-
-#sample_audio = file.path(".", "ShinyApp", "audio", fsep="/")
-#audio_files_dir <- system.file("audio", package = "howler")
-#addResourcePath("sample_audio", audio_files_dir)
-#audio_files <- file.path("sample_audio", list.files(audio_files_dir, ".wav$"))
-#audio_files <- file.path(list.files("./audio",".mp3$", full.names = TRUE))
-
 addResourcePath("aud", "./audio")
 audio_files <- file.path("aud", list.files("./audio", ".wav$"))
+
+japanese_local_file <- file.path("./audio", "Japanese.wav")
+temp_file <- file.path("./audio", "temp.wav")
+writeWave(readWave(japanese_local_file, from=10, to=30, units="seconds"), filename=temp_file)
+seeked_audio_file <- file.path("aud", "temp.wav");
 
 print(paste0(audio_files))
 
@@ -43,11 +40,11 @@ ui <- fluidPage(
   howler::howlerModuleUI(
     id = "sound2",
     files = list(
-      audio_files[1]
+      seeked_audio_file
     )
   ),
   title = "howler.js Player",
-  howler(audio_files[1], elementId = "sound"),
+  howler(seeked_audio_file, elementId = "sound"),
   howlerCurrentTrack("sound"),
   p(
     howlerSeekTime("sound"),
