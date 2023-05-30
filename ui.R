@@ -1,8 +1,26 @@
 library(shiny)
 library(howler)
 library(tuneR)
+source("utils.R")
 
-tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", "ShinyApp/audio1.mp3", "ShinyApp/audio2.mp3")
+# Loading in textGrid Files
+allGrids <- load_textGrids()
+print("loaded grids")
+searchResults <- get_timestamps_for(regex="l",tier="Words",allGrids)
+
+
+for (x in 1:length(searchResults[[1]])) {
+  print("from grid: ")
+  print(searchResults[[1]][[x]])
+  print("The start timestamp is: ")
+  print(searchResults[[2]][[x]])
+  print("The end timestamp is: ")
+  print(searchResults[[3]][[x]])
+}
+
+#Loading tracks
+tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", 
+            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
 
 addResourcePath("aud", "./audio")
 audio_files <- file.path("aud", list.files("./audio", ".wav$"))
@@ -14,8 +32,9 @@ seeked_audio_file <- file.path("aud", "temp.wav");
 
 print(paste0(audio_files))
 
+#UI
 ui <- fluidPage(
-  titlePanel("Infant Speech App"),
+  titlePanel(textgrid),
   fluidRow (
     #IPA Input
     column(2,
@@ -26,6 +45,11 @@ ui <- fluidPage(
       selectInput("select", h3("TextGrid Tier:"), 
                   choices = list("Phoneme" = 1, "Immediate Neighbor" = 2, "Syllable" = 3, "Word" = 4), selected = 1),
     ),
+    column(2,
+           selectInput("track", "Select Track", basename(tracks)),
+           howler(elementId = "howler", tracks),
+           howlerPlayPauseButton("howler")
+    ),
   ),
   sidebarLayout(
     sidebarPanel(
@@ -33,8 +57,14 @@ ui <- fluidPage(
       h1("info panel"),
     ),
     mainPanel (
-      #audio Panel
-      h1("audio panel"),
+      howler::howlerModuleUI(
+        id = "howler",
+        files = list(
+          "Winning Elevation" = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3",
+          "soundhelix" = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        )
+      ),
+      paste0(h)
     )
   ),
   howler::howlerModuleUI(
