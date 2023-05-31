@@ -8,7 +8,6 @@ allGrids <- load_textGrids()
 print("loaded grids")
 searchResults <- get_timestamps_for(regex="l",tier="Words",allGrids)
 
-
 for (x in 1:length(searchResults[[1]])) {
   print("from grid: ")
   print(searchResults[[1]][[x]])
@@ -17,6 +16,13 @@ for (x in 1:length(searchResults[[1]])) {
   print("The end timestamp is: ")
   print(searchResults[[3]][[x]])
 }
+
+print("original:")
+sampa <- c('a','3','e','Q','p\\', 'r\\`', 's\\','a','[ar_?\\b_?\\@<\\a]' )
+print(sampa)
+print("IPA:")
+IPA <- translate_sampa(sampa)
+print(IPA)
 
 #Loading tracks
 tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", 

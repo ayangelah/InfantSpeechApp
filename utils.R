@@ -1,4 +1,5 @@
 library(textgRid)
+library(ipa)
 
 # load_textGrids: func for gatherings and loading all textGrids
 #allGrids is a list of gridNames and TextGrids (see textgRid for formats)
@@ -35,3 +36,14 @@ get_timestamps_for <- function(regex, tier, allGrids) {
   return(list(gridNames, startTimes, endTimes))
 }
 
+#given a vector of X-SAMPA symbols, OR a string of X_SAMPA symbols, returns its IPA equivalent
+#NOTE in X-SAMPA, when a backslash is used it MUST be replaced by 2 backslashes to avoid parsing errors for R
+translate_sampa <- function(sampa_vector){
+  return(convert_phonetics(sampa_vector, from = "xsampa", to = "ipa"))
+}
+
+#given a vector of ascii/ipa symbols, OR a string of ascii symbols, returns its X_SAMPA equivalent
+#NOTE in X-SAMPA, when a backslash is used it MUST be replaced by 2 backslashes to avoid parsing errors for R
+translate_ipa <- function(ipa_vector){
+  return(convert_phonetics(ipa_vector, from = "ipa", to = "xsampa"))
+}
