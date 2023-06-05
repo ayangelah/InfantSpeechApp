@@ -52,7 +52,10 @@ dummy_loop <- function () {
 
 server <- function(input, output) {
   NewSection = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3"
-  output$audiotable <- renderUI({
-    foo_func(input$ipainput) #note to self: figure out reactivity in function call.
-  })
+    output$audiotable <- renderUI({
+      validate(
+        need(input$ipainput, 'Please Enter a phoneme.')
+      )
+      foo_func(input$ipainput) #note to self: figure out reactivity in function call.
+    })
 }
