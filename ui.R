@@ -29,7 +29,7 @@ ui <- fluidPage(
   fluidRow (
     #IPA Input
     column(2,
-      textInput("ipainput", h3("IPA:"))
+      textInput("ipainput", h3("IPA:"), value = "l")
     ),
     #Tier Input
     column(2,
@@ -49,13 +49,6 @@ ui <- fluidPage(
     ),
     mainPanel (
       uiOutput("audiotable"),
-      howler::howlerModuleUI(
-        id = "howler",
-        files = list(
-          "Winning Elevation" = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3",
-          "soundhelix" = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-        )
-      ),
       textOutput("foo_bar")
     )
   ),

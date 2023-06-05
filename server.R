@@ -12,8 +12,10 @@ foo_func <- function(ipa) {
   # Loading in textGrid Files
   allGrids <- load_textGrids()
   print("loaded grids")
-  searchResults <- get_timestamps_for(regex="l",tier="Words",allGrids)
-  result <- tagList(p('test'))
+  phoneme <- "i"
+  tiervar <- "Words"
+  searchResults <- get_timestamps_for(regex=phoneme,tier=tiervar,allGrids)
+  result <- tagList(h2(paste('Audio Clips of', phoneme, 'in the context of', tiervar)))
   for (x in 1:length(searchResults[[1]])) {
     temp_file <- file.path("./audio", paste0("temp", x, ".wav"))
     writeWave(readWave(japanese_local_file, from=searchResults[[2]][[x]], to=searchResults[[3]][[x]], units="seconds"), filename=temp_file)
@@ -24,7 +26,7 @@ foo_func <- function(ipa) {
               searchResults[[1]][[x]], 
               " | the start timestamp is: ",
               searchResults[[2]][[x]],
-              "The end timestamp is: ",
+              " | The end timestamp is: ",
               searchResults[[3]][[x]]
               ),
         howler::howlerModuleUI(
@@ -36,7 +38,7 @@ foo_func <- function(ipa) {
       )
     ))
   }
-  result
+  sidebarPanel(style = "height: 90vh; overflow-y: auto;", result)
 }
 
 dummy_loop <- function () {
@@ -51,9 +53,6 @@ dummy_loop <- function () {
 server <- function(input, output) {
   NewSection = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3"
   output$audiotable <- renderUI({
-    foo_func(input$ipainput)
-  })
-  output$foo_bar <- renderText({
-    paste("Fooooo barrrr: ", input$text, foo_func())
+    foo_func(input$ipainput) #note to self: figure out reactivity in function call.
   })
 }
