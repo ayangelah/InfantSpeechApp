@@ -3,20 +3,6 @@ library(howler)
 library(tuneR)
 source("utils.R")
 
-# Loading in textGrid Files
-allGrids <- load_textGrids()
-print("loaded grids")
-searchResults <- get_timestamps_for(regex="l",tier="Words",allGrids)
-
-for (x in 1:length(searchResults[[1]])) {
-  print("from grid: ")
-  print(searchResults[[1]][[x]])
-  print("The start timestamp is: ")
-  print(searchResults[[2]][[x]])
-  print("The end timestamp is: ")
-  print(searchResults[[3]][[x]])
-}
-
 print("original:")
 sampa <- c('a','3','e','Q','p\\', 'r\\`', 's\\','a','[ar_?\\b_?\\@<\\a]' )
 print(sampa)
@@ -40,11 +26,10 @@ print(paste0(audio_files))
 
 #UI
 ui <- fluidPage(
-  titlePanel(textgrid),
   fluidRow (
     #IPA Input
     column(2,
-      textInput("text", h3("IPA:"))
+      textInput("ipainput", h3("IPA:"))
     ),
     #Tier Input
     column(2,
@@ -63,6 +48,7 @@ ui <- fluidPage(
       h1("info panel"),
     ),
     mainPanel (
+      uiOutput("audiotable"),
       howler::howlerModuleUI(
         id = "howler",
         files = list(
@@ -70,22 +56,7 @@ ui <- fluidPage(
           "soundhelix" = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
         )
       ),
-      paste0(h)
+      textOutput("foo_bar")
     )
   ),
-  howler::howlerModuleUI(
-    id = "sound2",
-    files = list(
-      seeked_audio_file
-    )
-  ),
-  title = "howler.js Player",
-  howler(seeked_audio_file, elementId = "sound"),
-  howlerCurrentTrack("sound"),
-  p(
-    howlerSeekTime("sound"),
-    "/",
-    howlerDurationTime("sound")
-  ),
-  howlerPlayPauseButton("sound")
 )
