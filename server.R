@@ -3,7 +3,9 @@ library(tuneR)
 source("utils.R")
 library(DT)
 
+td <- tempdir()
 addResourcePath("aud", "./audio")
+addResourcePath("tmp", td)
 audio_files <- file.path("aud", list.files("./audio", ".wav$"))
 
 japanese_local_file <- file.path("./audio", "Japanese.wav")
@@ -17,9 +19,9 @@ foo_func <- function(ipa) {
   searchResults <- get_timestamps_for(regex=phoneme,tier=tiervar,allGrids)
   result <- tagList(h2(paste('Audio Clips of', phoneme, 'in the context of', tiervar)))
   for (x in 1:length(searchResults[[1]])) {
-    temp_file <- file.path("./audio", paste0("temp", x, ".wav"))
+    temp_file <- file.path(td, paste0("temp", ipa, x, ".wav"))
     writeWave(readWave(japanese_local_file, from=searchResults[[2]][[x]], to=searchResults[[3]][[x]], units="seconds"), filename=temp_file)
-    seeked_audio_file <- file.path("aud", paste0("temp", x, ".wav"));
+    seeked_audio_file <- file.path("tmp", paste0("temp", ipa, x, ".wav"));
     result <- tagAppendChild(result, tagList(
       fluidRow(
         p("from grid: ", 
