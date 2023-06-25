@@ -2,12 +2,21 @@ library(textgRid)
 library(ipa)
 
 # load_textGrids: func for gatherings and loading all textGrids
+# If previous version of textgrids exits, use this file.
 #allGrids is a list of gridNames and TextGrids (see textgRid for formats)
 load_textGrids <- function(){
+  if(file.exists("textGrid_Processed_File.RData")) {
+    load(file="textGrid_Processed_File.RData")
+    return(save)
+  }
+  else {
   addResourcePath("txt", "./textgrid")
   grid_files <- file.path("textgrid", list.files("./textgrid", ".txt"))
   allGrids <- lapply(grid_files, TextGrid)
-  return(list(grid_files, allGrids))
+  save <- list(grid_files, allGrids)
+  save(save, file="textGrid_Processed_File.RData")
+  return(save)
+  }
 }
 
 #input: a regex to search for, a tier to search on, and a list of loaded textGrids. Output: three lists, gridNames, startTimes, endTimes

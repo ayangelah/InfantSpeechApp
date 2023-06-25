@@ -1,7 +1,11 @@
 library(howler)
 library(tuneR)
-source("utils.R")
 library(DT)
+source("utils.R")
+
+# Loading in textGrid Files
+allGrids <- load_textGrids()
+print("loaded grids")
 
 foo_func <- function(ipa, select, allGrids) {
   td <- tempdir()
@@ -58,9 +62,7 @@ dummy_loop <- function () {
 
 server <- function(input, output) {
   NewSection = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3"
-  # Loading in textGrid Files
-  allGrids <- load_textGrids()
-  print("loaded grids")
+
   output$audiotable <- renderUI({
     validate(
       need(input$ipainput, 'Please Enter a phoneme.')
