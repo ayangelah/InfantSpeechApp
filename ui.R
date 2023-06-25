@@ -14,15 +14,15 @@ print(IPA)
 tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", 
             "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
 
-addResourcePath("aud", "./audio")
-audio_files <- file.path("aud", list.files("./audio", ".wav$"))
-
-japanese_local_file <- file.path("./audio", "Japanese.wav")
-temp_file <- file.path("./audio", "temp.wav")
-writeWave(readWave(japanese_local_file, from=10, to=30, units="seconds"), filename=temp_file)
-seeked_audio_file <- file.path("aud", "temp.wav");
-
-print(paste0(audio_files))
+# addResourcePath("aud", "./audio")
+# audio_files <- file.path("aud", list.files("./audio", ".wav$"))
+# 
+# japanese_local_file <- file.path("./audio", "Japanese.wav")
+# temp_file <- file.path("./audio", "temp.wav")
+# writeWave(readWave(japanese_local_file, from=10, to=30, units="seconds"), filename=temp_file)
+# seeked_audio_file <- file.path("aud", "temp.wav");
+# 
+# print(paste0(audio_files))
 
 #UI
 ui <- fluidPage(
@@ -34,13 +34,8 @@ ui <- fluidPage(
     #Tier Input
     column(2,
       selectInput("select", h3("TextGrid Tier:"), 
-                  choices = list("Phoneme" = 1, "Immediate Neighbor" = 2, "Syllable" = 3, "Word" = 4), selected = 1),
-    ),
-    column(2,
-           selectInput("track", "Select Track", basename(tracks)),
-           howler(elementId = "howler", tracks),
-           howlerPlayPauseButton("howler")
-    ),
+                  choices = list("Phoneme" = "phones", "Immediate Neighbor" = "neighbor", "Syllable" = "syll", "Word" = "words", "Phonology"="phono", "Orthography"="ortho"), selected = "phones"),
+    )
   ),
   sidebarLayout(
     sidebarPanel(

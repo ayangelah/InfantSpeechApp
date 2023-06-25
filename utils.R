@@ -4,8 +4,8 @@ library(ipa)
 # load_textGrids: func for gatherings and loading all textGrids
 #allGrids is a list of gridNames and TextGrids (see textgRid for formats)
 load_textGrids <- function(){
-  addResourcePath("text", "./textgrid")
-  grid_files <- file.path("textgrid", list.files("./textgrid", ".TextGrid$"))
+  addResourcePath("txt", "./textgrid")
+  grid_files <- file.path("textgrid", list.files("./textgrid", ".txt"))
   allGrids <- lapply(grid_files, TextGrid)
   return(list(grid_files, allGrids))
 }
@@ -13,7 +13,10 @@ load_textGrids <- function(){
 #input: a regex to search for, a tier to search on, and a list of loaded textGrids. Output: three lists, gridNames, startTimes, endTimes
 #The index of each list represents a start time, endtime, and origin grid for each search.
 #outputs empty start and end times if cannot find pattern in textgrids on this tier.
-get_timestamps_for <- function(regex, tier, allGrids) {
+#cannot handle a tier other than pgoneme, immediete neighbor, syllable, word 
+
+#TODO handle the neighbor case.
+get_timestamps_for <- function(regex, tierSearch, allGrids) {
   startTimes = list()
   endTimes = list()
   gridNames = list()
@@ -21,15 +24,19 @@ get_timestamps_for <- function(regex, tier, allGrids) {
     name <- allGrids[[1]][[index]]
     grid <- allGrids[[2]][[index]]
     #search the correct tier
-    t <- grid[[tier]]
+    t <- grid[[tierSearch]]
     #find intervals for this regex
+    if (!is.null(t)){
     intervals <- findIntervals(tier=t, pattern=regex)
-    #add to lists
-    startTimes <- append(startTimes, intervals$StartTime)
-    endTimes <- append(endTimes, intervals$EndTime)
-    #Grid name
-    for (x in intervals$StartTime) {
-      gridNames <- append(gridNames, name)
+      if (!is.null(intervals)){
+        #add to lists
+        startTimes <- append(startTimes, intervals$StartTime)
+        endTimes <- append(endTimes, intervals$EndTime)
+        #Grid name
+        for (x in intervals$StartTime) {
+          gridNames <- append(gridNames, name)
+        }
+      }
     }
   }
   #return object
