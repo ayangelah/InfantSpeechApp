@@ -29,7 +29,7 @@ ui <- fluidPage(
   fluidRow (
     #IPA Input
     column(2,
-      textInput("ipainput", h3("IPA:"), value = "l")
+      textInput("ipainput", h3("IPA:"))
     ),
     #Tier Input
     column(2,

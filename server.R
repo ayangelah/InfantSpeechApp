@@ -12,7 +12,7 @@ foo_func <- function(ipa) {
   # Loading in textGrid Files
   allGrids <- load_textGrids()
   print("loaded grids")
-  phoneme <- "i"
+  phoneme <- ipa
   tiervar <- "Words"
   searchResults <- get_timestamps_for(regex=phoneme,tier=tiervar,allGrids)
   result <- tagList(h2(paste('Audio Clips of', phoneme, 'in the context of', tiervar)))
