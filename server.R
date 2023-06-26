@@ -13,11 +13,15 @@ foo_func <- function(ipa, select, allGrids) {
   addResourcePath("tmp", td)
   audio_files <- file.path("aud", list.files("./audio", ".wav$"))
   
-  searchResults <- get_timestamps_for(regex=ipa, tierSearch=select, allGrids)
+  if (select == "neighbor") {
+    searchResults <- get_timestamps_for_neighbor(regex=ipa, allGrids)
+  }
+  else {
+    searchResults <- get_timestamps_for(regex=ipa, tierSearch=select, allGrids)
+  }
   result <- tagList(h2(paste('Audio Clips of', ipa, 'in the context of', select)))
   #TODO if searchResult is a list of empty list, no match was found for these settings
   #right now a nonfound search results in an out of bounds error
-  #TODO handle the neighbor case. add 1 second to each timestamp (if audio length permits!)
   for (x in 1:length(searchResults[[1]])) {
     #find audio file
     addResourcePath("aud", "./audio")
@@ -25,8 +29,8 @@ foo_func <- function(ipa, select, allGrids) {
     file_name <- gsub("textgrid/", "", gsub(".txt", ".wav", searchResults[[1]][[x]]))
     name_local_file <- file.path("./audio", file_name)
     temp_file <- file.path(td, paste0("temp", ipa, x, ".wav"))
-    print(file_name)
-    print(searchResults[[2]][[x]])
+    #print(file_name)
+    #print(searchResults[[2]][[x]])
     writeWave(readWave(name_local_file, from=searchResults[[2]][[x]], to=searchResults[[3]][[x]], units="seconds"), filename=temp_file)
     seeked_audio_file <- file.path("tmp", paste0("temp", ipa, x, ".wav"));
     
