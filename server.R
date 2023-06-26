@@ -28,9 +28,9 @@ foo_func <- function(ipa, select, allGrids) {
     audio_files <- file.path("aud", list.files("./audio", ".wav$"))
     file_name <- gsub("textgrid/", "", gsub(".txt", ".wav", searchResults[[1]][[x]]))
     name_local_file <- file.path("./audio", file_name)
-    temp_file <- file.path(td, paste0("temp", ipa, x, ".wav"))
+    temp_file <- file.path(td, paste0("temp", ipa, x, select, ".wav"))
     writeWave(readWave(name_local_file, from=searchResults[[2]][[x]], to=searchResults[[3]][[x]], units="seconds"), filename=temp_file)
-    seeked_audio_file <- file.path("tmp", paste0("temp", ipa, x, ".wav"));
+    seeked_audio_file <- file.path("tmp", paste0("temp", ipa, x, select, ".wav"));
     if (select == "neighbor") {
     tagListResult <- tagList(
       fluidRow(
