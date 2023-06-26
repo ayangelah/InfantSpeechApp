@@ -10,21 +10,6 @@ print("IPA:")
 IPA <- translate_sampa(sampa)
 print(IPA)
 
-#Loading tracks
-tracks <- c("https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3", 
-            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
-
-
-# addResourcePath("aud", "./audio")
-# audio_files <- file.path("aud", list.files("./audio", ".wav$"))
-# 
-# japanese_local_file <- file.path("./audio", "Japanese.wav")
-# temp_file <- file.path("./audio", "temp.wav")
-# writeWave(readWave(japanese_local_file, from=10, to=30, units="seconds"), filename=temp_file)
-# seeked_audio_file <- file.path("aud", "temp.wav");
-# 
-# print(paste0(audio_files))
-
 #UI
 ui <- fluidPage(
   fluidRow (
@@ -42,6 +27,8 @@ ui <- fluidPage(
     sidebarPanel(
       #info Panel
       h1("info panel"),
+      actionButton("prev", "Previous"),
+      actionButton("nxt", "Next")
     ),
     mainPanel (
       uiOutput("audiotable"),

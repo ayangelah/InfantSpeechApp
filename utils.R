@@ -27,7 +27,8 @@ get_timestamps_for <- function(regex, tierSearch, allGrids) {
   startTimes = list()
   endTimes = list()
   gridNames = list()
-
+  labels = list()
+  
   for (index in 1:length(allGrids[[1]])) {
     name <- allGrids[[1]][[index]]
     grid <- allGrids[[2]][[index]]
@@ -41,6 +42,7 @@ get_timestamps_for <- function(regex, tierSearch, allGrids) {
         #add to lists
         startTimes <- append(startTimes, intervals$StartTime)
         endTimes <- append(endTimes, intervals$EndTime)
+        labels <- append(labels, intervals$Label)
         #Grid name
         for (x in intervals$StartTime) {
           gridNames <- append(gridNames, name)
@@ -49,7 +51,7 @@ get_timestamps_for <- function(regex, tierSearch, allGrids) {
     }
   }
   #return object
-  return(list(gridNames, startTimes, endTimes))
+  return(list(gridNames, startTimes, endTimes, labels))
 }
 
 #input: a regex to search for, a tier to search on, and a list of loaded textGrids. Output: three lists, gridNames, startTimes, endTimes
