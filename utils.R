@@ -85,6 +85,7 @@ get_timestamps_for_neighbor <- function(regex, allGrids) {
         #Grid name
         gridNames <- append(gridNames, name)
         #left and right neighbor regex
+        #TODO, if it was the begining or end of file, give a blank regex to express that there was no left or righthand context
         leftRegex <- append(leftRegex, t@labels[leftIndex])
         rightRegex <- append(rightRegex, t@labels[rightIndex])
       }

@@ -29,20 +29,22 @@ foo_func <- function(ipa, select, allGrids) {
     file_name <- gsub("textgrid/", "", gsub(".txt", ".wav", searchResults[[1]][[x]]))
     name_local_file <- file.path("./audio", file_name)
     temp_file <- file.path(td, paste0("temp", ipa, x, ".wav"))
-    #print(file_name)
-    #print(searchResults[[2]][[x]])
     writeWave(readWave(name_local_file, from=searchResults[[2]][[x]], to=searchResults[[3]][[x]], units="seconds"), filename=temp_file)
     seeked_audio_file <- file.path("tmp", paste0("temp", ipa, x, ".wav"));
-    
-    result <- tagAppendChild(result, tagList(
+    if (select == "neighbor") {
+    tagListResult <- tagList(
       fluidRow(
         p("from grid: ",
-              searchResults[[1]][[x]], 
-              " | the start timestamp is: ",
-              searchResults[[2]][[x]],
-              " | The end timestamp is: ",
-              searchResults[[3]][[x]]
-              ),
+          searchResults[[1]][[x]], 
+          " | the start timestamp is: ",
+          searchResults[[2]][[x]],
+          "lefthand neighbor is: ",
+          searchResults[[4]][[x]], 
+          " | The end timestamp is: ",
+          searchResults[[3]][[x]],
+          "righthand neighbor is: ",
+          searchResults[[5]][[x]], 
+        ),
         howler::howlerModuleUI(
           id = paste0("clip","-",x),
           files = list(
@@ -50,7 +52,28 @@ foo_func <- function(ipa, select, allGrids) {
           )
         )
       )
-    ))
+    )
+    }
+    else {
+      tagListResult <- tagList(
+        fluidRow(
+          p("from grid: ",
+            searchResults[[1]][[x]], 
+            " | the start timestamp is: ",
+            searchResults[[2]][[x]],
+            " | The end timestamp is: ",
+            searchResults[[3]][[x]]
+          ),
+          howler::howlerModuleUI(
+            id = paste0("clip","-",x),
+            files = list(
+              seeked_audio_file
+            )
+          )
+        )
+      )
+    }
+    result <- tagAppendChild(result, tagListResult)
   }
   sidebarPanel(style = "height: 90vh; overflow-y: auto;", result)
 }
