@@ -20,8 +20,12 @@ ui <- fluidPage(
     #Tier Input
     column(2,
       selectInput("select", h3("TextGrid Tier:"), 
-                  choices = list("Phoneme" = "phones", "Immediate Neighbor" = "neighbor", "Syllable" = "syll", "Word" = "words", "Phonology"="phono", "Orthography"="ortho"), selected = "phones"),
-    )
+                  choices = list("Phoneme" = "phones", "Syllable" = "syll", "Word" = "words", "Phonology"="phono", "Orthography"="ortho"), selected = "phones"),
+    ),
+    column(2,
+      # Search for neighbor?
+      checkboxInput(inputId = "search_neighbor", label = "Show Neighbor")
+    ),
   ),
   sidebarLayout(
     sidebarPanel(
