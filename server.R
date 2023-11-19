@@ -49,9 +49,9 @@ foo_func <- function(ipa, select, search_neighbor, allGrids) {
       fluidRow(
         p(ipa),
         p("lefthand neighbor is: ",
-          searchResults[[4]][[x]]),
+          translate_sampa(searchResults[[4]][[x]])),
         p("righthand neighbor is: ",
-          searchResults[[5]][[x]]
+          translate_sampa(searchResults[[5]][[x]])
         ),
         howler::howlerBasicModuleUI(
           id = paste0("clip","-",x),
